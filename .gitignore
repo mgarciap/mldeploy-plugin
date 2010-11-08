@@ -1,0 +1,15 @@
+target/
+stacktrace.log
+.classpath
+.project
+.idea/
+.settings/
+*.iml
+*.swp
+*~
+out/
+atlassian-ide-plugin.xml
+*.tld
+*.log
+*.log.*
+*.zip
