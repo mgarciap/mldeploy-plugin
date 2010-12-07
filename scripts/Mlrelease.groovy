@@ -9,7 +9,7 @@ includeTargets << grailsScript("Init")
 
 scriptEnv = Ant.project.properties.'grails.env'
 
-includeTargets << new File("${basedir}/scripts/_MLVersioning.groovy")
+includeTargets << new File("$mldeployPluginPluginDir/scripts/_MLVersioning.groovy")
 
 target(main:"Provides Ground-Zero Deployment utilities") {
   depends(parseArguments)
@@ -36,10 +36,6 @@ target(main:"Provides Ground-Zero Deployment utilities") {
     			  tagBuild()
 			  	break
 			  	
-			  	case 'action2':  
-            println "Action 2"
-			  	break
-			  	
           default:
             release()
 	    	}	    	
@@ -47,7 +43,7 @@ target(main:"Provides Ground-Zero Deployment utilities") {
 
 /**
 * Call from bamboo CI
-* -DbambooBuildNumber=${bamboo.buildNumber} must be passed
+* ${bamboo.buildNumber} must be passed as argument
 * as System Environment Variables
 */
 target(tagBuild: 'To be used from Bamboo CI') {
@@ -89,13 +85,6 @@ version-level,
     major: x+1.y.z
     minor: x.y+1.z
     internal: increase internal version (alpha, beta, release candidate) x.y.z+1
-
-server,
-   Target server (defaults to ALL environment servers)
-   
-Examples:
-  grails MLDeploy tomcat deploy minor ws-front-end
-  Deploys via Tomcat Plugin to specified server. Tags version and increase ir as minor release.
   """
 }
 

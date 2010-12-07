@@ -103,13 +103,23 @@ target(checkRepositorySynchronizationStatus: 'Verify that there is no diferences
   }
   
   println "$targetLabel Checking working directory synchronization status ..."
-	exec  resultproperty:'cmdreturn1', outputproperty:'cmdout1', failonerror:true, executable:'git', { arg line:'status --short'}
+/*	Version corta. No anda desde la distro git de bamboo
+exec  resultproperty:'cmdreturn1', outputproperty:'cmdout1', failonerror:true, executable:'git', { arg line:'status --short'}
 	if (ant.project.properties.cmdout1?.equals("")) {
 		println "$targetLabel Working directory Synchronized!"
 	} else {
 	  println "$targetLabel Working directory out of Sync: You need to add and/or commit to your Local Repo"
 	  exit(1)
-	}
+	}*/
+
+	exec  resultproperty:'cmdreturn1', outputproperty:'cmdout1', failonerror:true, executable:'git', { arg line:'status'}	     
+	if (ant.project.properties.cmdout1.contains("nothing to commit") && 
+	     ant.project.properties.cmdout1.contains("nothing added to commit")) {
+		println "Working directory Synchronized!"
+	} else {
+	  println "Working directory out of Sync: You need to add and/or commit to your Local Repo"
+	  exit(1)
+	}	
 	  
 	println "$targetLabel Checking Server Vs Local repository synchronization status ..."
 	exec resultproperty:'cmdreturn2', outputproperty:'cmdout2', failonerror:true, executable:'git', { arg line:'remote show origin'}

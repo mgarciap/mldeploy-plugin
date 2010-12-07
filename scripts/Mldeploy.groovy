@@ -12,7 +12,8 @@ scriptEnv = Ant.project.properties.'grails.env'
 includeTargets << new File("$mldeployPluginPluginDir/scripts/_MLTomcatDeploy.groovy")
 includeTargets << new File("$mldeployPluginPluginDir/scripts/_MLScriptedDeploy.groovy")
 
-//TODO: poder deployar una version especifica. Requeriría hacer un git checkout 'tag'
+// TODO: poder deployar una version especifica. 
+//Requeriría hacer un git checkout 'tag'. Aun no implementado!
 target(main:"Provides Ground-Zero Deployment utilities") {
   depends(parseArguments)
   targetLabel = '[DEBUG - New World Deploy]'
@@ -29,9 +30,12 @@ target(main:"Provides Ground-Zero Deployment utilities") {
   if(mode != null && 
      (mode.equals('tomcat') ||
       mode.equals('scripted')) &&
-     params.size() > 1) {
-     argsMap.params = params[1..-1]
+       params.size() > 0) {
+     argsMap.params = (params.size() == 1) ? [] : params[1..-1]
   }  
+
+  println "$targetLabel Params restantes: ${argsMap.params}"
+
   
   def action = params ? params[0]?.trim() : null
   
@@ -39,10 +43,12 @@ target(main:"Provides Ground-Zero Deployment utilities") {
      (action.equals('deploy') ||
       action.equals('undeploy') ||
       action.equals('list')) &&
-     params.size() > 1) {
-     argsMap.params = params[1..-1]
+       params.size() > 0) {
+     argsMap.params = (params.size() == 1) ? [] : params[1..-1]
   }  
-  
+
+  println "$targetLabel Params restantes: ${argsMap.params}"  
+
   println "$targetLabel Target Action '$mode'" + (mode == null ? '(defaulting to deploy)':'')
   println "$targetLabel	Custom Environment: $scriptEnv"
   

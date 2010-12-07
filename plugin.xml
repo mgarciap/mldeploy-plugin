@@ -9,6 +9,7 @@ Document me...
   <resources>
     <resource>BuildConfig</resource>
     <resource>Config</resource>
+    <resource>UrlMappings</resource>
   </resources>
   <dependencies />
   <behavior />
